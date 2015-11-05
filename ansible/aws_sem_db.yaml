@@ -1,0 +1,55 @@
+- hosts: localhost
+  connection: local
+
+  vars:
+    region: eu-west-1
+    ft_rhel_6_ami: ami-640d4413 #Linux AMI
+    env: p
+    ipcode: P192 #Semantic metadata
+    systemCode: "Semantic Metadata"
+    description: "Semantic Metadata boxes"
+    teamDL: "george.angel@ft.com"
+    stopSchedule: "nostop"
+    product: "Semantic DBs"
+    sgRes: sg-1beb8b7e
+    sgWeb: sg-1dec8c78
+    sgPri: sg-9591fbf0
+    subnet: subnet-1eb0e258
+    instanceSize: m4.large
+    owner: "George Angel"
+
+  tasks:
+    - name: Provision instances
+      ec2:
+        aws_access_key: "{{ aws_access_key_id }}"
+        aws_secret_key: "{{ aws_secret_access_key }}"
+        region: "{{region}}"
+        group_id: ["{{sgRes}}", "{{sgPri}}"]
+        image: "{{ft_rhel_6_ami}}"
+        instance_type: "{{instanceSize}}"
+        wait: true
+        exact_count: 2
+        user_data: "{{ lookup('template', 'userdata.yaml') }}"
+        vpc_subnet_id: "{{ subnet }}"
+        assign_public_ip: no
+        instance_profile_name: FT-Linux-Role
+        volumes:
+          - device_name: /dev/xvda
+            volume_size: 30
+            delete_on_termination: true
+          - device_name: /dev/xvdf
+            volume_size: 100
+            delete_on_termination: true
+        count_tag:
+          Name: "ftsdbqstart-caw1c-eu-p"
+        instance_tags:
+          Name: "ftsdbqstart-caw1c-eu-p"
+          environment: "{{env}}"
+          ipCode: "{{ipcode}}"
+          systemCode: "{{systemCode}}"
+          description: "{{description}}"
+          teamDL: "{{teamDL}}"
+          stopSchedule: "{{stopSchedule}}"
+          owner: "{{owner}}"
+          product: "{{product}}"
+

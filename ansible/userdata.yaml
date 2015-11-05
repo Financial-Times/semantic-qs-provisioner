@@ -1,0 +1,19 @@
+environment="{{env}}"
+function="var"
+description="{{description}}"
+requestor="{{teamDL}}"
+email="{{teamDL}}"
+patchinggroup="default"
+costcentre="{{ipcode}}"
+bootstrap="/bin/bash -x /usr/share/ft/buildinfo/bootstrap.sh"
+product="{{product}}"
+tags="{ec2stopSchedule=nostop}"
+cat > /usr/share/ft/buildinfo/bootstrap.sh <<'EOF'
+#!/bin/bash  
+# Script to bootstrap instances
+echo "Provisioned the box"
+fsck -a /dev/xvdf || mkfs.ext4 /dev/xvdf || echo "Failed mkfs and doesn't exist"
+test -e /vol || mkdir /vol || echo "Failed mkdir /vol and doesn't exist"
+mount /dev/xvdf /vol || echo "Failed to mount /xvdf"
+EOF
+
