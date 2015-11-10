@@ -4,7 +4,7 @@
   vars:
     region: eu-west-1
     ft_rhel_6_ami: ami-640d4413 #Linux AMI
-    env: p
+    env: t
     ipcode: P192 #Semantic metadata
     systemCode: "Semantic Metadata"
     description: "Semantic Metadata boxes"
@@ -17,13 +17,15 @@
     #sgPri: sg-9591fbf0
     ###
     ##infradev
-    sgRes: sg-28fd994d
+    sgRes: sg-54c0a631
     sgWeb: sg-28fd994d
-    sgPri: sg-4b1f7f2e
+    sgPri: sg-a5fd99c0
     ###
     #subnet: subnet-1eb0e258 #infraprod
     #subnet: subnet-33102047 #infradev priv
+    #subnet: subnet-72ecbc34 #infradev priv t
     #subnet: subnet-3c102048 #infradev pub
+    subnet: subnet-63690406
     instanceSize: m4.large
     owner: "George Angel"
 
@@ -37,7 +39,7 @@
         image: "{{ft_rhel_6_ami}}"
         instance_type: "{{instanceSize}}"
         wait: true
-        exact_count: 3
+        exact_count: 5
         user_data: "{{ lookup('template', 'userdata.yaml') }}"
         vpc_subnet_id: "{{ subnet }}"
         assign_public_ip: no
@@ -50,9 +52,9 @@
             volume_size: 100
             delete_on_termination: true
         count_tag:
-          Name: "ftsdbqstart-caw1c-eu-p"
+          Name: "ftsdbqstart-caw1c-eu-{{env}}"
         instance_tags:
-          Name: "ftsdbqstart-caw1c-eu-p"
+          Name: "ftsdbqstart-caw1c-eu-{{env}}"
           environment: "{{env}}"
           ipCode: "{{ipcode}}"
           systemCode: "{{systemCode}}"
