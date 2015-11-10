@@ -11,10 +11,19 @@
     teamDL: "george.angel@ft.com"
     stopSchedule: "nostop"
     product: "Semantic DBs"
-    sgRes: sg-1beb8b7e
-    sgWeb: sg-1dec8c78
-    sgPri: sg-9591fbf0
-    subnet: subnet-1eb0e258
+    ##infraprod
+    #sgRes: sg-1beb8b7e
+    #sgWeb: sg-1dec8c78
+    #sgPri: sg-9591fbf0
+    ###
+    ##infradev
+    sgRes: sg-28fd994d
+    sgWeb: sg-28fd994d
+    sgPri: sg-4b1f7f2e
+    ###
+    #subnet: subnet-1eb0e258 #infraprod
+    #subnet: subnet-33102047 #infradev priv
+    #subnet: subnet-3c102048 #infradev pub
     instanceSize: m4.large
     owner: "George Angel"
 
@@ -28,7 +37,7 @@
         image: "{{ft_rhel_6_ami}}"
         instance_type: "{{instanceSize}}"
         wait: true
-        exact_count: 2
+        exact_count: 3
         user_data: "{{ lookup('template', 'userdata.yaml') }}"
         vpc_subnet_id: "{{ subnet }}"
         assign_public_ip: no
